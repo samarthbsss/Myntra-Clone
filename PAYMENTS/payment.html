@@ -48,7 +48,7 @@
           </div>
           <div>
             <i class="fa-regular fa-money-bill-1"></i>
-            <h5 onclick="cashonDel()">Cash On Delivery</h5>
+            <h5 onclick="cashon()">Cash On Delivery</h5>
           </div>
           <div>
             <i class="fa-brands fa-google-pay"></i>
@@ -67,24 +67,13 @@
             <h5>EMI/Pay Later</h5>
           </div>
         </div>
-          <!-- <div id="paymentDiv">
-            <h4>Pay On delivery (Cash/UPI)</h4>
-            <a href="otp.html"> -->
-              <!-- <div id="pay">
-                PAYMENT
-              </div> -->
-            <!-- </a>
-          </div> -->
+        
           <div id="creditBox">
             <h3>CREDIT/DEBIT CARD</h3>
             <p>Please ensure that your card can be used for online transactions. </p>
             <P>Know More<i class="fa-thin fa-circle-chevron-down"></i></P>
             <div>
               <div class="checkout">
-                <!-- <h1>
-                  Checkout
-                </h1> -->
-                <!-- <h3>CREDIT/DEBIT CARD</h3> -->
                 <form>
                   <input placeholder="Card Number" type="text" required = " " maxlength="10" />
                   <input placeholder="Name on card" type="text" required = " "  />
@@ -95,9 +84,19 @@
                   <input type="submit" class="payNow" value="PAY NOW"/>
                 </form>
               </div>
+             
+            
                 <!-- <button onclick="pay()">PAY NOW</button> -->
             </div>
           </div>
+          <div id="cashbox">
+            <div class="checkout">
+              <h1>Cash on Deliver</h1>
+              <p>You can pay when the order arrives. </p>
+              <input type="submit" class="payNow" value="PAY NOW" onclick="go()"/>
+            </div>
+
+          </div>  
         </div>
     </div>
 
@@ -184,14 +183,27 @@
   // }
   function creditShow(){
     var crBox=document.getElementById("creditBox");
+    var box=document.getElementById("cashbox");
     if(crBox.style.display==="none"){
       crBox.style.display="block";
+      box.style.display='none';
     }
     else{
       crBox.style.display ="none";
-
+      
     }
     // console.log("hii");
+  }
+  function cashon(){
+    var crBox=document.getElementById("creditBox");
+    var box=document.getElementById("cashbox");
+    if(box.style.display==='none'){
+      box.style.display='block';
+      crBox.style.display ="none";
+    }else{
+      box.style.display='none';
+      crBox.style.display ="none";
+    }
   }
   var amount = localStorage.getItem("amount");
   document.querySelector(".amount_pay").innerText= amount;
@@ -213,15 +225,17 @@
     window.location.href ="../payment/address.html"
   })
 
-
+  function go(){
+    window.location="otp.html";
+  }
 
   document.querySelector("form").addEventListener("submit" ,formfun);
 
   function formfun(){
     event.preventDefault();
-    // console.log("hiiiiii")
+   
     window.location="otp.html";
-    // alert("PAYMENT SUCCESSFUL");
+   
   }
   var priceDetail= JSON.parse(localStorage.getItem("totalPriceInfo"));
 //   let priceobj = {

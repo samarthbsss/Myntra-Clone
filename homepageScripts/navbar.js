@@ -100,7 +100,8 @@ var navbar = `<div class="nav_up">
 
 <!-- Womens -->
   <div id="main_div">
-       <a id="button"  href="/LandingPageHTML/womanlandingPage.html">WOMENS</a>
+       <a id="button"  href="products/womenpage.html">WOMENS</a>
+       
        <div id="vishal2">
          <div id="b">
           <div class="div" id="d1">
