@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration and Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 300px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 10px;
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Registration and Login</h1>
+    <h2>Sign Up</h2>
+    <div id="signupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+
+        <button onclick="signup()">Sign Up</button>
+        <p id="signupMessage" class="message"></p>
+    </div>
+
+    <h2>Login</h2>
+    <div id="loginForm">
+        <label for="loginEmail">Email:</label>
+        <input type="text" id="loginEmail" name="loginEmail" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button onclick="login()">Login</button>
+        <p id="loginMessage" class="message"></p>
+    </div>
+
+    <script>
+       async function signup() {
+            try {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const phone = document.getElementById('phone').value;
+
+                const response = await fetch('http://localhost:8080/user/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password, phone })
+                });
+
+                const data = await response.json();
+                console.log(data, response);  
+                if (response.ok) {
+                    document.getElementById('signupMessage').textContent = 'User registered successfully';
+                    document.getElementById('signupMessage').className = 'success';
+                } else {
+                    document.getElementById('signupMessage').textContent = 'Error creating User: ' + data.error;
+                }
+            } catch (error) {
+                console.log(error);
+                document.getElementById('signupMessage').textContent = 'Error creating User: ' + error.message;
+            }
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+             
+                    document.getElementById('loginMessage').textContent = 'Login Successful from data: ' + data.msg;
+               
+                    const token = data.token;
+             
+            })
+            .catch(error => {
+                document.getElementById('loginMessage').textContent = 'Login Failed: ' + error.message;
+            });
+        }
+    </script>
+</body>
+</html>

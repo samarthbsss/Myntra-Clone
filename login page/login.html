@@ -49,6 +49,14 @@
         margin-top: -20px;
         margin-left: -4px;
       }
+      .message {
+            margin-top: 10px;
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
     </style>
   </head>
   <body>
@@ -56,7 +64,7 @@
     <div id="rk_form">
       <h3>Complete your Sign up</h3>
      
-     <!---- <h4 id="num" style="margin-top: -20px"></h4>-->
+
 
       <input class="rk_in" type="text" placeholder="Full Name" id="name" />
       <input
@@ -86,6 +94,7 @@
         class="rk_in"
         type="number"
         placeholder=" +91  |  Alternate Mobile Number"
+        id="phone"
       />
       <input
         class="rk_in"
@@ -94,7 +103,8 @@
         id=""
         placeholder="Hint Name (Alternate Name)"
       />
-      <button onclick="myfun()" id="rk_create"><a href="/signup.html">CREATE ACCOUNT </a></button>
+      <button onclick="signup()" id="rk_create">CREATE ACCOUNT </button>
+      <p id="signupMessage" class="message"></p>
     </div>
   </body>
 </html>
@@ -106,8 +116,40 @@
     let name = document.getElementById("name").value;
     
     localStorage.setItem("name", name);
-
+    window.location.href = "./signup.html";
     
   }
+  async function signup() {
+            try {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('pass').value;
+                const phone = document.getElementById('phone').value;
+
+                const response = await fetch('http://localhost:8080/user/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password, phone })
+                });
+
+                const data = await response.json();
+                console.log(data, response);  
+                if (response.ok) {
+                    document.getElementById('signupMessage').textContent = 'User registered successfully';
+                    document.getElementById('signupMessage').className = 'success';
+                    setTimeout(() => {
+                window.location.href = './signup.html'; // Replace '/home' with the actual URL of your home page
+            }, 5000);
+                } else {
+                    document.getElementById('signupMessage').textContent = 'Error creating User: ' + data.error;
+                }
+            } catch (error) {
+                console.log(error);
+                document.getElementById('signupMessage').textContent = 'Error creating User: ' + error.message;
+            }
+        }
+  
 </script>
 
